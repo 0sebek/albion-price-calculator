@@ -6,7 +6,6 @@ def main():
     item_names = get_item_names()
     while True:
         my_search = input("Enter item name (or exit to close): \n")
-        #my_search = my_search.lower()
         if my_search == "exit":
             exit()
         found_item = search_the_dict(item_names, my_search)
@@ -129,7 +128,7 @@ def choose_rarity():
         try:
             item_rarity = int(item_rarity)
             if item_rarity in rarities:
-                return item_rarity+1
+                return item_rarity
             else:
                 print("Number is not between 0 and 3!")
         except:
@@ -137,7 +136,10 @@ def choose_rarity():
 
 
 def get_market_data(item, rarity):
-    response = requests.get(f"https://www.albion-online-data.com/api/v2/stats/prices/{item}?qualities={rarity}")
+    if rarity == 0:
+        response = requests.get(f"https://www.albion-online-data.com/api/v2/stats/prices/{item}?qualities=1")
+    else:
+        response = requests.get(f"https://www.albion-online-data.com/api/v2/stats/prices/{item}@{rarity}?qualities=1")
     content = response.json()
     cities = ["Bridgewatch", "Martlock", "Lymhurst", "Fort Sterling", "Thetford"]
     prices = 0
