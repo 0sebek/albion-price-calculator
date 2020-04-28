@@ -6,7 +6,7 @@ def main():
     item_names = get_item_names()
     while True:
         my_search = input("Enter item name (or exit to close): \n")
-        my_search = my_search.lower()
+        #my_search = my_search.lower()
         if my_search == "exit":
             exit()
         found_item = search_the_dict(item_names, my_search)
@@ -25,6 +25,18 @@ def search_the_dict(names_dict, search):
     found_items = {}
     search = search.replace("'", "")
     # Iterate through whole dictionary
+    if search[0] == '"' and search[-1] == '"':
+        search = search.replace('"','')
+        for x in names_dict:
+            if search == x:
+                found_items[x] = names_dict[x]
+                return found_items
+            elif search.lower() == x.lower():
+                found_items[x] = names_dict[x]
+                return found_items
+        print(f"\nNothing found: {search}\n")
+        return False
+    search = search.lower()
     for x in names_dict:
         # Checks if searched item full name equals to any entry in the items data, returns item if true
         if search.lower() == x.lower():
@@ -68,8 +80,9 @@ def choose_item(found_items):
         print(f"{i}: {item}")
         i += 1
     while True:
+        chosen_item = input("Choose your item, by selecting the corresponding number: ")
         try:
-            chosen_item = int(input("Choose your item, by selecting the corresponding number: "))
+            chosen_item = int(chosen_item)
             if chosen_item >= 0 and chosen_item < len(found_items_list):
                 break
             else:
@@ -90,9 +103,23 @@ def get_item_names():
             name = item["LocalizedNames"]["EN-US"]
             name = name.replace("'", "")
             code = item["UniqueName"]
-            if code[-2:] != "@1" and code[-2:] != "@2" and code[-2:] != "@3":
+            if name not in item_names.keys():
                 item_names[name] = code
     return item_names
+
+
+def get_item_names2():
+    item_names = {}
+    with open("./items.json", encoding="utf8") as json_file:
+        content = json.load(json_file)
+        for item in content:
+            if "LocalizedNames" in item and item["LocalizedNames"] != None:
+                name = item["LocalizedNames"]["EN-US"]
+                name = name.replace("'", "")
+                code = item["UniqueName"]
+                if name not in item_names.keys():
+                    item_names[name] = code
+        return item_names
 
 
 def choose_rarity():
