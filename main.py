@@ -23,7 +23,7 @@ def main():
 def search_the_dict(names_dict, search):
     found_items = {}
     search = search.replace("'", "")
-    # Iterate through whole dictionary
+    # Searches only for direct search, if you search with " " at both ends
     if search[0] == '"' and search[-1] == '"':
         search = search.replace('"','')
         for x in names_dict:
@@ -35,6 +35,7 @@ def search_the_dict(names_dict, search):
                 return found_items
         print(f"\nNothing found: {search}\n")
         return False
+    # Iterate through whole dictionary
     search = search.lower()
     for x in names_dict:
         # Checks if searched item full name equals to any entry in the items data, returns item if true
