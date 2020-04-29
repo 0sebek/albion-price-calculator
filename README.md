@@ -1,5 +1,11 @@
 # albion-price-calculator
 
+## Install as exe
+
+Download only albion-price-calculator.rar, unrar file, open the folder and run main.exe
+
+## Install with python
+
 Clone this repository to your computer.
 
 Install Python from https://www.python.org/downloads/
